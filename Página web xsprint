@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-sprint - Tienda de Zapatillas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: black;
+            color: red;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 24px;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .product {
+            background: #333;
+            border: 1px solid #444;
+            border-radius: 5px;
+            margin: 15px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid red;
+        }
+        .product h3 {
+            color: red;
+        }
+        .button {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .cart {
+            background: #222;
+            padding: 15px;
+            position: fixed;
+            right: 10px;
+            top: 50px;
+            width: 250px;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+        .cart h2 {
+            text-align: center;
+            color: red;
+        }
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        .cart button {
+            width: 100%;
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header>X-sprint - Tienda de Zapatillas</header>
+
+<div class="container" id="products">
+    <div class="product">
+        <img src="https://via.placeholder.com/200" alt="Zapatilla 1">
+        <h3>Zapatilla Negra</h3>
+        <p>$50.00</p>
+        <button class="button" onclick="addToCart('Zapatilla Negra', 50)">Agregar al Carrito</button>
+    </div>
+    <div class="product">
+        <img src="https://via.placeholder.com/200" alt="Zapatilla 2">
+        <h3>Zapatilla Blanca</h3>
+        <p>$55.00</p>
+        <button class="button" onclick="addToCart('Zapatilla Blanca', 55)">Agregar al Carrito</button>
+    </div>
+    <div class="product">
+        <img src="https://via.placeholder.com/200" alt="Zapatilla 3">
+        <h3>Zapatilla Roja</h3>
+        <p>$60.00</p>
+        <button class="button" onclick="addToCart('Zapatilla Roja', 60)">Agregar al Carrito</button>
+    </div>
+</div>
+
+<div class="cart">
+    <h2>Carrito</h2>
+    <div class="cart-items" id="cart-items"></div>
+    <p>Total: $<span id="total">0.00</span></p>
+    <button onclick="checkout()">Finalizar Compra</button>
+</div>
+
+<script>
+    let cart = [];
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartItems = document.getElementById("cart-items");
+        const total = document.getElementById("total");
+        cartItems.innerHTML = "";
+        let totalPrice = 0;
+        
+        cart.forEach((item, index) => {
+            totalPrice += item.price;
+            cartItems.innerHTML += 
+                `<div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>$${item.price.toFixed(2)}</span>
+                    <button onclick="removeFromCart(${index})">X</button>
+                </div>`;
+        });
+
+        total.innerText = totalPrice.toFixed(2);
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            alert("Tu carrito está vacío.");
+        } else {
+            alert("Compra realizada con éxito.");
+            cart = [];
+            updateCart();
+        }
+    }
+</script>
+
+</body>
+</html>
